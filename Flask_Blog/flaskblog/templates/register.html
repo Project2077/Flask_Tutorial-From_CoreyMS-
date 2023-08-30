@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!-- content-section 见main.css 后不写了 -->
+    <div class="content-section">    
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+            <!-- that hidden tag is something that you need to add in, but don't worry too much about what it does -->
+            <!-- It's adding something called a CSRF token or a cross-site request forgery token -->
+            <!-- django里见过 防黑的 这个hidden_tag和我们写的那个SECRET_KEY就是a part of that protection-->
+
+            <fieldset class="form-group">
+                <!-- form-group 这是个bootstrap stuff -->
+                <legend class="border-bottom mb-4">Join Today</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}  
+                    
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            <!-- print all of the errors that we have in there -->
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <!-- 如果这样，变更其CSS -->
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                        <!-- username本体和username 的label标签 -->
+                    {% endif %}
+
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+
+                    {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    
+                    {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.confirm_password(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+                <!-- 后面的可直接复制第一个然后改 那个label是设置css的吧 -->
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info")}}  
+                <!-- submit按钮 -->
+            </div>
+        </form>   
+        <!-- action="" that means that when we post the form it's just going to go back to the same route,it's going to post to the same route that we're currently on  -->
+        <!-- 又转回当前位置 -->
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have A Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>    
+                <!-- flask用url_for找route -->
+        </small>
+    </div>
+{% endblock content %}
